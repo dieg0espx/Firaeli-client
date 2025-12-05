@@ -506,8 +506,8 @@
             .select();
 
           if (error) {
-            // Check if it's a duplicate email error
-            if (error.code === '23505') {
+            // Check if it's a duplicate email error (23505 or 409 conflict)
+            if (error.code === '23505' || error.code === 'PGRST409' || error.message?.includes('duplicate') || error.message?.includes('unique')) {
               messageEl.className = 'form-message success';
               messageEl.textContent = 'You\'re already in the Sacred Circle. We\'ll be in touch soon.';
             } else {
