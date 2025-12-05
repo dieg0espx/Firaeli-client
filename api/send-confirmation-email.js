@@ -172,7 +172,7 @@ export default async function handler(req, res) {
     // Send notification email to Kari
     await transporter.sendMail({
       from: `"FIRAELI" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-      to: 'aletxa.pascual@gmail.com',
+      to: 'kari@firaeli.com',
       subject: 'New Sacred Circle Subscriber',
       text: `New subscriber: ${email}`,
       html: `
