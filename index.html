@@ -514,9 +514,21 @@
               throw error;
             }
           } else {
-            // Success
+            // Success - send confirmation email
+            try {
+              await fetch('/api/send-confirmation-email', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: email })
+              });
+            } catch (emailError) {
+              console.log('Confirmation email could not be sent:', emailError);
+            }
+
             messageEl.className = 'form-message success';
-            messageEl.textContent = 'Welcome to the Sacred Circle. Your flame awaits.';
+            messageEl.textContent = 'Welcome to the Sacred Circle. Check your email for a special welcome.';
             document.getElementById('emailInput').value = '';
           }
 
