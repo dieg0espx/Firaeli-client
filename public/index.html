@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FIRAELI</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23050505'/><path d='M50 20c0 0-15 12-15 28c0 10 7 17 15 17s15-7 15-17c0-16-15-28-15-28z' fill='%23C8A25D'/><ellipse cx='50' cy='75' rx='8' ry='10' fill='%23B5694F'/></svg>">
-    <link rel="apple-touch-icon" href="/Logo2 (2).png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     <meta name="description" content="Be first to know when FIRAELI launches. Receive exclusive rituals, archetype guides, and early access to limited editions of our luxury ritual candles." />
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Italiana&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tenor+Sans&family=Rajdhani:wght@300;400;500;600&display=swap');
@@ -406,16 +409,7 @@
       .landing-benefits,
       .landing-form {
         opacity: 1;
-        animation: fadeInUp 0.8s ease forwards;
       }
-
-      .landing-label { animation-delay: 0.1s; }
-      .landing-title { animation-delay: 0.2s; }
-      .landing-subtitle { animation-delay: 0.3s; }
-      .landing-divider { animation-delay: 0.4s; }
-      .landing-description { animation-delay: 0.5s; }
-      .landing-benefits { animation-delay: 0.6s; }
-      .landing-form { animation-delay: 0.7s; }
 
       /* ========== SENSUAL FIRE ANIMATIONS ========== */
 
@@ -611,22 +605,6 @@
           0 0 10px rgba(200, 162, 93, 0.5),
           0 0 20px rgba(200, 162, 93, 0.3),
           0 0 30px rgba(181, 105, 79, 0.2);
-        animation: fireTextGlow 3s ease-in-out infinite;
-      }
-
-      @keyframes fireTextGlow {
-        0%, 100% {
-          text-shadow:
-            0 0 10px rgba(200, 162, 93, 0.5),
-            0 0 20px rgba(200, 162, 93, 0.3),
-            0 0 30px rgba(181, 105, 79, 0.2);
-        }
-        50% {
-          text-shadow:
-            0 0 15px rgba(200, 162, 93, 0.7),
-            0 0 30px rgba(200, 162, 93, 0.5),
-            0 0 45px rgba(181, 105, 79, 0.3);
-        }
       }
 
       /* Flame Line Dividers */
@@ -669,101 +647,16 @@
         overflow: hidden;
       }
 
-      /* Breathing Glow on Content Side */
-      .landing-content::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 150%;
-        height: 150%;
-        background: radial-gradient(ellipse at center, rgba(200, 162, 93, 0.08) 0%, transparent 60%);
-        animation: breatheGlow 6s ease-in-out infinite;
-        pointer-events: none;
-        z-index: -1;
-      }
-
-      @keyframes breatheGlow {
-        0%, 100% {
-          opacity: 0.5;
-          transform: translate(-50%, -50%) scale(1);
-        }
-        50% {
-          opacity: 1;
-          transform: translate(-50%, -50%) scale(1.1);
-        }
-      }
-
-      /* Undulating Divider - Silk Ribbon Effect */
+      /* Undulating Divider */
       .landing-divider {
         position: relative;
         background: linear-gradient(90deg, transparent, var(--divine-gold), transparent);
-        animation: ribbonFlow 4s ease-in-out infinite;
         overflow: visible;
-      }
-
-      .landing-divider::before {
-        content: '';
-        position: absolute;
-        inset: -2px;
-        background: linear-gradient(90deg, transparent, rgba(200, 162, 93, 0.6), transparent);
-        filter: blur(4px);
-        animation: ribbonGlow 4s ease-in-out infinite;
-      }
-
-      @keyframes ribbonFlow {
-        0%, 100% {
-          width: 60px;
-          transform: translateX(0);
-        }
-        50% {
-          width: 80px;
-          transform: translateX(10px);
-        }
-      }
-
-      @keyframes ribbonGlow {
-        0%, 100% {
-          opacity: 0.5;
-        }
-        50% {
-          opacity: 1;
-        }
-      }
-
-      /* Soft Text Float - applied after fadeInUp completes */
-      @keyframes softFloat {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-5px);
-        }
       }
 
       /* Logo Flame Flicker */
       .landing-logo {
-        animation: flameFlicker 3s ease-in-out infinite;
-      }
-
-      @keyframes flameFlicker {
-        0%, 100% {
-          filter: drop-shadow(0 4px 16px rgba(200, 162, 93, 0.3));
-          transform: scale(1);
-        }
-        25% {
-          filter: drop-shadow(0 4px 20px rgba(200, 162, 93, 0.5));
-          transform: scale(1.02);
-        }
-        50% {
-          filter: drop-shadow(0 4px 24px rgba(181, 105, 79, 0.4));
-          transform: scale(1);
-        }
-        75% {
-          filter: drop-shadow(0 4px 18px rgba(200, 162, 93, 0.45));
-          transform: scale(1.01);
-        }
+        filter: drop-shadow(0 4px 16px rgba(200, 162, 93, 0.3));
       }
 
       /* Pulsing Form Glow */
@@ -832,97 +725,10 @@
         }
       }
 
-      /* Slow Gradient Background Shift */
-      .landing-content {
-        background: linear-gradient(135deg, rgba(7, 7, 7, 1) 0%, var(--bg-darker) 100%);
-        animation: gradientShift 12s ease-in-out infinite;
-        background-size: 200% 200%;
-      }
-
-      @keyframes gradientShift {
-        0%, 100% {
-          background-position: 0% 50%;
-          background-image: linear-gradient(135deg, rgba(7, 7, 7, 1) 0%, var(--bg-darker) 50%, rgba(20, 15, 10, 1) 100%);
-        }
-        33% {
-          background-position: 50% 100%;
-          background-image: linear-gradient(135deg, rgba(10, 8, 5, 1) 0%, var(--bg-darker) 50%, rgba(15, 10, 8, 1) 100%);
-        }
-        66% {
-          background-position: 100% 50%;
-          background-image: linear-gradient(135deg, rgba(12, 10, 7, 1) 0%, var(--bg-darker) 50%, rgba(7, 7, 7, 1) 100%);
-        }
-      }
-
-      /* Benefits List Subtle Animation */
-      .landing-benefits li {
-        animation: fadeInUp 0.8s ease forwards, benefitGlow 5s ease-in-out infinite;
-        animation-delay: calc(0.6s + var(--i, 0) * 0.1s), calc(1s + var(--i, 0) * 0.5s);
-      }
-
-      .landing-benefits li:nth-child(1) { --i: 0; }
-      .landing-benefits li:nth-child(2) { --i: 1; }
-      .landing-benefits li:nth-child(3) { --i: 2; }
-      .landing-benefits li:nth-child(4) { --i: 3; }
-
-      @keyframes benefitGlow {
-        0%, 100% {
-          color: rgba(232, 198, 176, 0.75);
-        }
-        50% {
-          color: rgba(232, 198, 176, 0.9);
-        }
-      }
-
-      .landing-benefits li::before {
-        animation: starPulse 2s ease-in-out infinite;
-        animation-delay: calc(var(--i, 0) * 0.3s);
-      }
-
-      @keyframes starPulse {
-        0%, 100% {
-          opacity: 0.7;
-          transform: scale(1);
-        }
-        50% {
-          opacity: 1;
-          transform: scale(1.3);
-        }
-      }
-
-      /* Mantra Ethereal Animation */
-      .landing-mantra {
-        animation: fadeInUp 0.8s ease forwards, mantraBreath 8s ease-in-out infinite 1s;
-      }
-
-      @keyframes mantraBreath {
-        0%, 100% {
-          opacity: 0.35;
-          letter-spacing: 0.03em;
-        }
-        50% {
-          opacity: 0.55;
-          letter-spacing: 0.05em;
-        }
-      }
 
       /* Label Shimmer */
       .landing-label {
-        background: linear-gradient(90deg, #FFFFFF 0%, #C8A25D 50%, #FFFFFF 100%);
-        background-size: 200% 100%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: fadeInUp 0.8s ease forwards, shimmer 4s ease-in-out infinite 1s;
-      }
-
-      @keyframes shimmer {
-        0%, 100% {
-          background-position: -100% 0;
-        }
-        50% {
-          background-position: 100% 0;
-        }
+        color: #FFFFFF;
       }
 
       /* Mobile adjustments for animations */
