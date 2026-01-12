@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIRAELI - Portal of Intimacy</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Italiana&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tenor+Sans&family=Rajdhani:wght@300;400;500;600&display=swap');
+
+      :root {
+        --divine-gold: #C8A25D;
+        --blush-nude: #E8C6B0;
+        --ivory-light: #F6F1E7;
+        --molten-copper: #B5694F;
+        --bg-dark: #0D0D0D;
+        --bg-darker: #050505;
+        --text-light: #F5F5F0;
+        --text-gold: #D4AF70;
+        --flame-orange: #FF6B35;
+        --flame-red: #C41E3A;
+        --deep-red: #8B0000;
+        --ember-glow: #FF4500;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: 'Lora', serif;
+        background: var(--bg-darker);
+        color: var(--text-light);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ========== TUNNEL WRAPPER ========== */
+      .tunnel-wrapper {
+        position: relative;
+        min-height: 600vh;
+      }
+
+      /* ========== FIRE BACKGROUND ========== */
+      .fire-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(ellipse at center,
+          rgba(139, 0, 0, 0.2) 0%,
+          rgba(30, 10, 5, 0.5) 40%,
+          var(--bg-darker) 100%);
+        z-index: 0;
+        transition: all 0.5s ease;
+      }
+
+      /* ========== FLAME WALLS ========== */
+      .flame-wall {
+        position: fixed;
+        top: 0;
+        width: 120px;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      .flame-wall-left {
+        left: 0;
+        background: linear-gradient(to right,
+          rgba(255, 69, 0, 0.4) 0%,
+          rgba(255, 140, 0, 0.2) 30%,
+          transparent 100%);
+      }
+
+      .flame-wall-right {
+        right: 0;
+        background: linear-gradient(to left,
+          rgba(255, 69, 0, 0.4) 0%,
+          rgba(255, 140, 0, 0.2) 30%,
+          transparent 100%);
+      }
+
+      .wall-flame {
+        position: absolute;
+        width: 80px;
+        height: 150px;
+        background: radial-gradient(ellipse at center bottom,
+          rgba(255, 200, 100, 0.7) 0%,
+          rgba(255, 140, 0, 0.5) 30%,
+          rgba(255, 69, 0, 0.3) 60%,
+          transparent 100%);
+        filter: blur(15px);
+        animation: wallFlameRise 3s ease-in-out infinite;
+      }
+
+      @keyframes wallFlameRise {
+        0%, 100% {
+          transform: translateY(20px) scaleY(0.8) scaleX(1);
+          opacity: 0.4;
+        }
+        50% {
+          transform: translateY(-40px) scaleY(1.3) scaleX(0.9);
+          opacity: 0.8;
+        }
+      }
+
+      /* ========== FLOATING EMBERS ========== */
+      .embers-field {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 3;
+        overflow: hidden;
+      }
+
+      .rising-ember {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(1px);
+        animation: riseEmber 6s ease-out infinite;
+      }
+
+      @keyframes riseEmber {
+        0% {
+          transform: translateY(100vh) translateX(0) scale(1);
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-20vh) translateX(var(--drift)) scale(0.3);
+          opacity: 0;
+        }
+      }
+
+      /* ========== CENTER GLOW ========== */
+      .center-glow {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle,
+          rgba(255, 255, 255, 0.6) 0%,
+          rgba(255, 200, 100, 0.4) 20%,
+          rgba(255, 140, 0, 0.2) 40%,
+          rgba(255, 69, 0, 0.1) 60%,
+          transparent 100%);
+        border-radius: 50%;
+        filter: blur(30px);
+        z-index: 1;
+        pointer-events: none;
+        animation: centerPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes centerPulse {
+        0%, 100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0.5;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.3);
+          opacity: 0.8;
+        }
+      }
+
+      /* ========== HEAT WAVES ========== */
+      .heat-waves {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 70vh;
+        background: linear-gradient(to top,
+          rgba(255, 100, 50, 0.15) 0%,
+          rgba(255, 69, 0, 0.05) 50%,
+          transparent 100%);
+        pointer-events: none;
+        z-index: 2;
+        animation: heatWave 5s ease-in-out infinite;
+      }
+
+      @keyframes heatWave {
+        0%, 100% { opacity: 0.3; transform: scaleY(1); }
+        50% { opacity: 0.6; transform: scaleY(1.1); }
+      }
+
+      /* ========== DEPTH MARKERS ========== */
+      .depth-marker {
+        position: fixed;
+        right: 40px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .depth-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 140, 0, 0.4);
+        background: transparent;
+        transition: all 0.3s ease;
+      }
+
+      .depth-dot.active {
+        background: var(--flame-orange);
+        box-shadow: 0 0 15px rgba(255, 140, 0, 0.6);
+      }
+
+      /* ========== SCROLL SECTIONS ========== */
+      .scroll-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        pointer-events: auto;
+      }
+
+      .section-content {
+        max-width: 650px;
+        padding: 4rem;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .section-content.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+
+      .section-label {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--flame-orange);
+        margin-bottom: 1.5rem;
+      }
+
+      .section-title {
+        font-family: 'Italiana', serif;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        letter-spacing: 0.15em;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+        line-height: 1.1;
+        text-shadow:
+          0 0 40px rgba(255, 140, 0, 0.4),
+          0 0 80px rgba(255, 69, 0, 0.2);
+      }
+
+      .section-text {
+        font-family: 'Lora', serif;
+        font-size: 1.15rem;
+        line-height: 1.9;
+        color: var(--blush-nude);
+        margin-bottom: 2rem;
+      }
+
+      .section-divider {
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--flame-orange), transparent);
+        margin: 2rem auto;
+      }
+
+      /* ========== PORTAL CTA ========== */
+      .portal-cta {
+        display: inline-block;
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        padding: 1.5rem 3.5rem;
+        border: 1px solid var(--flame-orange);
+        background: transparent;
+        color: var(--flame-orange);
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .portal-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, var(--flame-orange), var(--flame-red));
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: -1;
+      }
+
+      .portal-cta:hover {
+        color: var(--bg-darker);
+        border-color: transparent;
+        box-shadow: 0 0 50px rgba(255, 69, 0, 0.5);
+      }
+
+      .portal-cta:hover::before {
+        opacity: 1;
+      }
+
+      /* ========== SCROLL INDICATOR ========== */
+      .scroll-indicator {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        text-align: center;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+
+      .scroll-indicator.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .scroll-text {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(255, 140, 0, 0.6);
+        margin-bottom: 1rem;
+      }
+
+      .scroll-arrow {
+        width: 20px;
+        height: 20px;
+        border-right: 1px solid var(--flame-orange);
+        border-bottom: 1px solid var(--flame-orange);
+        transform: rotate(45deg);
+        margin: 0 auto;
+        animation: scrollBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollBounce {
+        0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+        50% { transform: rotate(45deg) translateY(10px); opacity: 1; }
+      }
+
+      /* ========== PROGRESS BAR ========== */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--divine-gold), var(--flame-orange), var(--flame-red));
+        z-index: 1000;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.1s ease-out;
+      }
+
+      /* ========== NAVIGATION ========== */
+      .portal-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%);
+        transition: all 0.5s ease;
+      }
+
+      .portal-nav.scrolled {
+        padding: 1rem 2rem;
+        background: rgba(5, 5, 5, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      .portal-nav-link {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(200, 162, 93, 0.6);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        position: relative;
+      }
+
+      .portal-nav-link:hover {
+        color: var(--divine-gold);
+      }
+
+      .portal-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 1px;
+        background: var(--divine-gold);
+        transition: width 0.3s ease;
+      }
+
+      .portal-nav-link:hover::after {
+        width: 80%;
+      }
+
+      .portal-nav-link.active {
+        color: var(--text-light);
+      }
+
+      .portal-nav-link.active::after {
+        width: 80%;
+      }
+
+      .portal-nav-divider {
+        width: 1px;
+        height: 20px;
+        background: rgba(200, 162, 93, 0.3);
+      }
+
+      /* ========== VIGNETTE OVERLAY ========== */
+      .vignette {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 999;
+        background: radial-gradient(ellipse at center,
+          transparent 0%,
+          transparent 40%,
+          rgba(0, 0, 0, 0.3) 70%,
+          rgba(0, 0, 0, 0.7) 90%,
+          rgba(0, 0, 0, 0.9) 100%);
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 768px) {
+        .section-content {
+          padding: 2rem;
+          margin: 1rem;
+        }
+
+        .portal-nav {
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .portal-nav-link {
+          font-size: 0.55rem;
+          letter-spacing: 0.2em;
+          padding: 0.3rem 0.5rem;
+        }
+
+        .portal-nav-divider {
+          display: none;
+        }
+
+        .depth-marker {
+          right: 20px;
+        }
+
+        .flame-wall {
+          width: 60px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="vignette"></div>
+
+    <nav class="portal-nav" id="portalNav">
+      <a href="/" class="portal-nav-link">Home</a>
+      <div class="portal-nav-divider"></div>
+      <a href="/portal1.html" class="portal-nav-link">Portal I</a>
+      <a href="/portal2.html" class="portal-nav-link active">Portal II</a>
+      <a href="/portal3.html" class="portal-nav-link">Portal III</a>
+    </nav>
+
+    <div class="depth-marker" id="depthMarker">
+      <div class="depth-dot active" data-section="0"></div>
+      <div class="depth-dot" data-section="1"></div>
+      <div class="depth-dot" data-section="2"></div>
+      <div class="depth-dot" data-section="3"></div>
+      <div class="depth-dot" data-section="4"></div>
+      <div class="depth-dot" data-section="5"></div>
+    </div>
+
+    <div class="scroll-indicator" id="scrollIndicator">
+      <div class="scroll-text">Descend deeper</div>
+      <div class="scroll-arrow"></div>
+    </div>
+
+    <div class="tunnel-wrapper">
+      <!-- Background -->
+      <div class="fire-bg" id="fireBg"></div>
+
+      <!-- Flame Walls -->
+      <div class="flame-wall flame-wall-left" id="flameWallLeft"></div>
+      <div class="flame-wall flame-wall-right" id="flameWallRight"></div>
+
+      <!-- Floating Embers -->
+      <div class="embers-field" id="embersField"></div>
+
+      <!-- Center Glow -->
+      <div class="center-glow" id="centerGlow"></div>
+
+      <!-- Heat Waves -->
+      <div class="heat-waves" id="heatWaves"></div>
+
+      <!-- Scroll Sections -->
+      <section class="scroll-section" id="section0">
+        <div class="section-content">
+          <span class="section-label">Portal of Intimacy</span>
+          <h1 class="section-title">THE WALLS<br>ARE WATCHING</h1>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            The passage narrows. Flames dance on either side—
+            so close you can almost feel them breathing against your neck.
+            They know where you're going. Do you?
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section1">
+        <div class="section-content">
+          <span class="section-label">The First Touch</span>
+          <h2 class="section-title">DON'T<br>STOP</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            Keep scrolling. Keep descending. Keep wanting.
+            The heat is building. Your pulse is racing.
+            Something waits for you in the dark below.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section2">
+        <div class="section-content">
+          <span class="section-label">The Narrowing</span>
+          <h2 class="section-title">TIGHTER</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            The walls press in. The heat intensifies.
+            That tension in your chest—is it fear or anticipation?
+            Perhaps they're the same thing. Perhaps that's the point.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section3">
+        <div class="section-content">
+          <span class="section-label">The Furnace</span>
+          <h2 class="section-title">ALMOST<br>THERE</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            You're close now. So close. The fire roars around you.
+            Your skin glistens. Your lips part.
+            One more breath. One more moment. One more...
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section4">
+        <div class="section-content">
+          <span class="section-label">The Afterglow</span>
+          <h2 class="section-title">THERE</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            You found it. That moment. That release.
+            The fire doesn't destroy—it transforms.
+            Feel yourself reforming in the heat. Different now. Alive.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section5">
+        <div class="section-content">
+          <span class="section-label">Emergence</span>
+          <h2 class="section-title">THEY'LL<br>KNOW</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            When you return, they'll see it in your eyes.
+            That glow. That knowing smile. That heat that won't fade.
+            You've been somewhere sacred. You've been changed.
+          </p>
+          <a href="/portal3.html" class="portal-cta">One More Secret</a>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // ========== FLAME WALLS ==========
+      const flameWallLeft = document.getElementById('flameWallLeft');
+      const flameWallRight = document.getElementById('flameWallRight');
+
+      for (let i = 0; i < 10; i++) {
+        const flameLeft = document.createElement('div');
+        flameLeft.className = 'wall-flame';
+        flameLeft.style.bottom = `${i * 10}%`;
+        flameLeft.style.left = '10px';
+        flameLeft.style.animationDelay = `${i * 0.25}s`;
+        flameLeft.style.animationDuration = `${2.5 + Math.random()}s`;
+        flameWallLeft.appendChild(flameLeft);
+
+        const flameRight = document.createElement('div');
+        flameRight.className = 'wall-flame';
+        flameRight.style.bottom = `${i * 10}%`;
+        flameRight.style.right = '10px';
+        flameRight.style.animationDelay = `${i * 0.25 + 0.15}s`;
+        flameRight.style.animationDuration = `${2.5 + Math.random()}s`;
+        flameWallRight.appendChild(flameRight);
+      }
+
+      // ========== FLOATING EMBERS ==========
+      const embersField = document.getElementById('embersField');
+
+      function createEmber() {
+        const ember = document.createElement('div');
+        ember.className = 'rising-ember';
+
+        const size = 2 + Math.random() * 5;
+        ember.style.width = size + 'px';
+        ember.style.height = size + 'px';
+
+        ember.style.left = Math.random() * 100 + 'vw';
+        ember.style.bottom = '-10px';
+
+        const drift = (Math.random() - 0.5) * 100;
+        ember.style.setProperty('--drift', drift + 'px');
+
+        const colors = [
+          'radial-gradient(circle, rgba(255, 200, 100, 0.9) 0%, rgba(255, 140, 0, 0.5) 50%, transparent 100%)',
+          'radial-gradient(circle, rgba(255, 140, 0, 0.9) 0%, rgba(255, 69, 0, 0.5) 50%, transparent 100%)',
+          'radial-gradient(circle, rgba(255, 69, 0, 0.9) 0%, rgba(181, 105, 79, 0.5) 50%, transparent 100%)'
+        ];
+        ember.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        ember.style.animationDuration = (4 + Math.random() * 4) + 's';
+
+        embersField.appendChild(ember);
+
+        setTimeout(() => {
+          ember.remove();
+        }, 8000);
+      }
+
+      // Create initial embers
+      for (let i = 0; i < 25; i++) {
+        setTimeout(createEmber, i * 100);
+      }
+
+      // Continuously create embers
+      setInterval(createEmber, 180);
+
+      // ========== SCROLL ANIMATION ==========
+      const progressBar = document.getElementById('progressBar');
+      const scrollIndicator = document.getElementById('scrollIndicator');
+      const fireBg = document.getElementById('fireBg');
+      const centerGlow = document.getElementById('centerGlow');
+      const heatWaves = document.getElementById('heatWaves');
+      const sections = document.querySelectorAll('.scroll-section');
+      const depthDots = document.querySelectorAll('.depth-dot');
+      const wallFlamesLeft = flameWallLeft.querySelectorAll('.wall-flame');
+      const wallFlamesRight = flameWallRight.querySelectorAll('.wall-flame');
+
+      let ticking = false;
+
+      function updateTunnel() {
+        const scrollY = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const scrollProgress = Math.min(scrollY / maxScroll, 1);
+
+        // Progress bar
+        progressBar.style.transform = `scaleX(${scrollProgress})`;
+
+        // Hide scroll indicator
+        if (scrollY > 100) {
+          scrollIndicator.classList.add('hidden');
+        } else {
+          scrollIndicator.classList.remove('hidden');
+        }
+
+        // Fire background intensifies
+        const redIntensity = 0.2 + scrollProgress * 0.4;
+        fireBg.style.background = `radial-gradient(ellipse at center,
+          rgba(139, 0, 0, ${redIntensity}) 0%,
+          rgba(255, 69, 0, ${scrollProgress * 0.25}) 30%,
+          rgba(30, 10, 5, 0.5) 60%,
+          var(--bg-darker) 100%)`;
+
+        // Center glow grows
+        const glowScale = 1 + scrollProgress * 2;
+        centerGlow.style.transform = `translate(-50%, -50%) scale(${glowScale})`;
+        centerGlow.style.opacity = 0.5 + scrollProgress * 0.5;
+
+        // Heat waves intensify
+        heatWaves.style.opacity = 0.3 + scrollProgress * 0.5;
+        heatWaves.style.height = `${70 + scrollProgress * 20}vh`;
+
+        // Flame walls intensify
+        const wallIntensity = 0.4 + scrollProgress * 0.4;
+        flameWallLeft.style.background = `linear-gradient(to right,
+          rgba(255, 69, 0, ${wallIntensity}) 0%,
+          rgba(255, 140, 0, ${wallIntensity * 0.5}) 30%,
+          transparent 100%)`;
+        flameWallRight.style.background = `linear-gradient(to left,
+          rgba(255, 69, 0, ${wallIntensity}) 0%,
+          rgba(255, 140, 0, ${wallIntensity * 0.5}) 30%,
+          transparent 100%)`;
+
+        // Wall flames grow
+        wallFlamesLeft.forEach(flame => {
+          flame.style.transform = `scaleY(${1 + scrollProgress * 0.5})`;
+        });
+        wallFlamesRight.forEach(flame => {
+          flame.style.transform = `scaleY(${1 + scrollProgress * 0.5})`;
+        });
+
+        // Section visibility and depth markers
+        let activeSection = 0;
+        sections.forEach((section, index) => {
+          const rect = section.getBoundingClientRect();
+          const sectionCenter = rect.top + rect.height / 2;
+          const viewportCenter = window.innerHeight / 2;
+          const distance = Math.abs(sectionCenter - viewportCenter);
+
+          const content = section.querySelector('.section-content');
+          if (distance < window.innerHeight * 0.4) {
+            content.classList.add('visible');
+            activeSection = index;
+          } else {
+            content.classList.remove('visible');
+          }
+        });
+
+        // Update depth markers
+        depthDots.forEach((dot, index) => {
+          if (index === activeSection) {
+            dot.classList.add('active');
+          } else {
+            dot.classList.remove('active');
+          }
+        });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateTunnel);
+          ticking = true;
+        }
+      });
+
+      // Initial state
+      updateTunnel();
+
+      // Nav scroll effect
+      const portalNav = document.getElementById('portalNav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          portalNav.classList.add('scrolled');
+        } else {
+          portalNav.classList.remove('scrolled');
+        }
+      });
+    </script>
+  </body>
+</html>

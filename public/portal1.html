@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FIRAELI - Portal of Desire</title>
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Italiana&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tenor+Sans&family=Rajdhani:wght@300;400;500;600&display=swap');
+
+      :root {
+        --divine-gold: #C8A25D;
+        --blush-nude: #E8C6B0;
+        --ivory-light: #F6F1E7;
+        --molten-copper: #B5694F;
+        --bg-dark: #0D0D0D;
+        --bg-darker: #050505;
+        --text-light: #F5F5F0;
+        --text-gold: #D4AF70;
+        --flame-orange: #FF6B35;
+        --flame-red: #C41E3A;
+        --deep-red: #8B0000;
+        --ember-glow: #FF4500;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        overflow-x: hidden;
+      }
+
+      body {
+        font-family: 'Lora', serif;
+        background: var(--bg-darker);
+        color: var(--text-light);
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ========== FIRE WRAPPER ========== */
+      .fire-wrapper {
+        position: relative;
+        min-height: 500vh;
+      }
+
+      /* ========== FIRE BACKGROUND ========== */
+      .fire-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: radial-gradient(ellipse at center bottom,
+          rgba(139, 0, 0, 0.3) 0%,
+          rgba(30, 10, 5, 0.6) 40%,
+          var(--bg-darker) 100%);
+        z-index: 0;
+        transition: all 0.5s ease;
+      }
+
+      /* ========== RISING FLAMES ========== */
+      .flames-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .flame {
+        position: absolute;
+        bottom: -20%;
+        width: 100px;
+        height: 300px;
+        background: linear-gradient(to top,
+          rgba(255, 69, 0, 0.8) 0%,
+          rgba(255, 140, 0, 0.6) 30%,
+          rgba(255, 200, 100, 0.4) 60%,
+          transparent 100%);
+        border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        filter: blur(15px);
+        animation: riseFlame 4s ease-in-out infinite;
+        transform-origin: bottom center;
+      }
+
+      @keyframes riseFlame {
+        0%, 100% {
+          transform: scaleY(0.8) scaleX(1) translateY(0);
+          opacity: 0.5;
+        }
+        25% {
+          transform: scaleY(1.2) scaleX(0.9) translateY(-50px);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scaleY(1) scaleX(1.1) translateY(-30px);
+          opacity: 0.6;
+        }
+        75% {
+          transform: scaleY(1.3) scaleX(0.85) translateY(-70px);
+          opacity: 0.7;
+        }
+      }
+
+      /* ========== FLOATING EMBERS ========== */
+      .embers-field {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      .rising-ember {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(1px);
+        animation: riseEmber 6s ease-out infinite;
+      }
+
+      @keyframes riseEmber {
+        0% {
+          transform: translateY(100vh) translateX(0) scale(1);
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(-20vh) translateX(var(--drift)) scale(0.3);
+          opacity: 0;
+        }
+      }
+
+      /* ========== HEAT DISTORTION ========== */
+      .heat-distortion {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100vw;
+        height: 50vh;
+        background: linear-gradient(to top,
+          rgba(255, 100, 50, 0.08) 0%,
+          transparent 100%);
+        pointer-events: none;
+        z-index: 2;
+        animation: heatPulse 3s ease-in-out infinite;
+      }
+
+      @keyframes heatPulse {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+      }
+
+      /* ========== CENTRAL FLAME ========== */
+      .central-flame {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 150px;
+        height: 150px;
+        z-index: 3;
+        pointer-events: none;
+      }
+
+      .flame-core {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle,
+          rgba(255, 255, 255, 0.9) 0%,
+          rgba(255, 200, 100, 0.7) 20%,
+          rgba(255, 140, 0, 0.5) 40%,
+          rgba(255, 69, 0, 0.3) 60%,
+          transparent 100%);
+        border-radius: 50%;
+        filter: blur(8px);
+        animation: flamePulse 2s ease-in-out infinite;
+      }
+
+      @keyframes flamePulse {
+        0%, 100% {
+          transform: translate(-50%, -50%) scale(1);
+          filter: blur(8px);
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2);
+          filter: blur(12px);
+        }
+      }
+
+      .flame-ring {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        border: 2px solid rgba(255, 140, 0, 0.3);
+        animation: ringExpand 3s ease-out infinite;
+      }
+
+      .flame-ring:nth-child(2) { animation-delay: 1s; }
+      .flame-ring:nth-child(3) { animation-delay: 2s; }
+
+      @keyframes ringExpand {
+        0% {
+          width: 30px;
+          height: 30px;
+          opacity: 0.8;
+          border-color: rgba(255, 200, 100, 0.6);
+        }
+        100% {
+          width: 300px;
+          height: 300px;
+          opacity: 0;
+          border-color: rgba(200, 162, 93, 0.1);
+        }
+      }
+
+      /* ========== SCROLL SECTIONS ========== */
+      .scroll-section {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10;
+        pointer-events: auto;
+      }
+
+      .section-content {
+        max-width: 700px;
+        padding: 4rem;
+        text-align: center;
+        opacity: 0;
+        transform: scale(0.9) translateY(30px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .section-content.visible {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+
+      .section-label {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.7rem;
+        letter-spacing: 0.5em;
+        text-transform: uppercase;
+        color: var(--divine-gold);
+        margin-bottom: 1.5rem;
+      }
+
+      .section-title {
+        font-family: 'Italiana', serif;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        letter-spacing: 0.15em;
+        color: var(--text-light);
+        margin-bottom: 2rem;
+        line-height: 1.1;
+        text-shadow:
+          0 0 40px rgba(255, 140, 0, 0.3),
+          0 0 80px rgba(200, 162, 93, 0.2);
+      }
+
+      .section-text {
+        font-family: 'Lora', serif;
+        font-size: 1.15rem;
+        line-height: 1.9;
+        color: var(--blush-nude);
+        margin-bottom: 2rem;
+      }
+
+      .section-divider {
+        width: 80px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--divine-gold), transparent);
+        margin: 2rem auto;
+      }
+
+      /* ========== PORTAL CTA ========== */
+      .portal-cta {
+        display: inline-block;
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        padding: 1.5rem 3.5rem;
+        border: 1px solid var(--divine-gold);
+        background: transparent;
+        color: var(--divine-gold);
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .portal-cta::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, var(--divine-gold), var(--molten-copper));
+        opacity: 0;
+        transition: opacity 0.5s ease;
+        z-index: -1;
+      }
+
+      .portal-cta:hover {
+        color: var(--bg-darker);
+        border-color: transparent;
+        box-shadow: 0 0 50px rgba(200, 162, 93, 0.4);
+      }
+
+      .portal-cta:hover::before {
+        opacity: 1;
+      }
+
+      /* ========== SCROLL INDICATOR ========== */
+      .scroll-indicator {
+        position: fixed;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        text-align: center;
+        opacity: 1;
+        transition: opacity 0.5s ease;
+      }
+
+      .scroll-indicator.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .scroll-text {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(200, 162, 93, 0.6);
+        margin-bottom: 1rem;
+      }
+
+      .scroll-arrow {
+        width: 20px;
+        height: 20px;
+        border-right: 1px solid var(--divine-gold);
+        border-bottom: 1px solid var(--divine-gold);
+        transform: rotate(45deg);
+        margin: 0 auto;
+        animation: scrollBounce 2s ease-in-out infinite;
+      }
+
+      @keyframes scrollBounce {
+        0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.5; }
+        50% { transform: rotate(45deg) translateY(10px); opacity: 1; }
+      }
+
+      /* ========== PROGRESS BAR ========== */
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: linear-gradient(90deg, var(--divine-gold), var(--molten-copper), var(--flame-orange));
+        z-index: 1000;
+        transform-origin: left;
+        transform: scaleX(0);
+        transition: transform 0.1s ease-out;
+      }
+
+      /* ========== NAVIGATION ========== */
+      .portal-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%);
+        transition: all 0.5s ease;
+      }
+
+      .portal-nav.scrolled {
+        padding: 1rem 2rem;
+        background: rgba(5, 5, 5, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      .portal-nav-link {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(200, 162, 93, 0.6);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        position: relative;
+      }
+
+      .portal-nav-link:hover {
+        color: var(--divine-gold);
+      }
+
+      .portal-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 1px;
+        background: var(--divine-gold);
+        transition: width 0.3s ease;
+      }
+
+      .portal-nav-link:hover::after {
+        width: 80%;
+      }
+
+      .portal-nav-link.active {
+        color: var(--text-light);
+      }
+
+      .portal-nav-link.active::after {
+        width: 80%;
+      }
+
+      .portal-nav-divider {
+        width: 1px;
+        height: 20px;
+        background: rgba(200, 162, 93, 0.3);
+      }
+
+      /* ========== VIGNETTE OVERLAY ========== */
+      .vignette {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        pointer-events: none;
+        z-index: 999;
+        background: radial-gradient(ellipse at center,
+          transparent 0%,
+          transparent 40%,
+          rgba(0, 0, 0, 0.3) 70%,
+          rgba(0, 0, 0, 0.7) 90%,
+          rgba(0, 0, 0, 0.9) 100%);
+      }
+
+      /* ========== RESPONSIVE ========== */
+      @media (max-width: 768px) {
+        .section-content {
+          padding: 2rem;
+          margin: 1rem;
+        }
+
+        .portal-nav {
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .portal-nav-link {
+          font-size: 0.55rem;
+          letter-spacing: 0.2em;
+          padding: 0.3rem 0.5rem;
+        }
+
+        .portal-nav-divider {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="vignette"></div>
+
+    <nav class="portal-nav" id="portalNav">
+      <a href="/" class="portal-nav-link">Home</a>
+      <div class="portal-nav-divider"></div>
+      <a href="/portal1.html" class="portal-nav-link active">Portal I</a>
+      <a href="/portal2.html" class="portal-nav-link">Portal II</a>
+      <a href="/portal3.html" class="portal-nav-link">Portal III</a>
+    </nav>
+
+    <div class="scroll-indicator" id="scrollIndicator">
+      <div class="scroll-text">Scroll to enter</div>
+      <div class="scroll-arrow"></div>
+    </div>
+
+    <div class="fire-wrapper">
+      <!-- Background -->
+      <div class="fire-bg" id="fireBg"></div>
+
+      <!-- Rising Flames -->
+      <div class="flames-container" id="flamesContainer"></div>
+
+      <!-- Floating Embers -->
+      <div class="embers-field" id="embersField"></div>
+
+      <!-- Heat Distortion -->
+      <div class="heat-distortion" id="heatDistortion"></div>
+
+      <!-- Central Flame -->
+      <div class="central-flame" id="centralFlame">
+        <div class="flame-core"></div>
+        <div class="flame-ring"></div>
+        <div class="flame-ring"></div>
+        <div class="flame-ring"></div>
+      </div>
+
+      <!-- Scroll Sections -->
+      <section class="scroll-section" id="section1">
+        <div class="section-content">
+          <span class="section-label">Portal of Desire</span>
+          <h1 class="section-title">SOMETHING<br>STIRS</h1>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            You feel it, don't you? That flicker in your chest.
+            That warmth spreading lower... slower... deeper.
+            Don't look away. The flame has already seen you.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section2">
+        <div class="section-content">
+          <span class="section-label">The First Ember</span>
+          <h2 class="section-title">CLOSER</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            Come closer. Let the heat find the places you've hidden—
+            even from yourself. The flame knows what you want.
+            It's known all along. It's been waiting.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section3">
+        <div class="section-content">
+          <span class="section-label">The Rising Heat</span>
+          <h2 class="section-title">LET GO</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            Stop resisting. Feel the fire lick at the edges of your control.
+            Your breath quickens. Your skin flushes.
+            This is not danger—this is remembering.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section4">
+        <div class="section-content">
+          <span class="section-label">Sacred Combustion</span>
+          <h2 class="section-title">BURN</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            There it is. That gasp. That shiver.
+            The moment when heat becomes hunger,
+            when warmth becomes want, when fire becomes... everything.
+          </p>
+        </div>
+      </section>
+
+      <section class="scroll-section" id="section5">
+        <div class="section-content">
+          <span class="section-label">The Molten Core</span>
+          <h2 class="section-title">YOU'RE<br>GLOWING</h2>
+          <div class="section-divider"></div>
+          <p class="section-text">
+            Can you feel it? The heat radiating from your skin?
+            You've crossed the threshold. There's no going back to cold.
+            Only deeper. Only hotter. Only more.
+          </p>
+          <a href="/portal2.html" class="portal-cta">Go Deeper</a>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      // ========== RISING FLAMES ==========
+      const flamesContainer = document.getElementById('flamesContainer');
+
+      for (let i = 0; i < 10; i++) {
+        const flame = document.createElement('div');
+        flame.className = 'flame';
+        flame.style.left = `${5 + i * 10}%`;
+        flame.style.animationDelay = `${i * 0.4}s`;
+        flame.style.animationDuration = `${3 + Math.random() * 2}s`;
+        flame.style.width = `${60 + Math.random() * 50}px`;
+        flame.style.height = `${180 + Math.random() * 120}px`;
+        flamesContainer.appendChild(flame);
+      }
+
+      // ========== FLOATING EMBERS ==========
+      const embersField = document.getElementById('embersField');
+
+      function createEmber() {
+        const ember = document.createElement('div');
+        ember.className = 'rising-ember';
+
+        const size = 2 + Math.random() * 5;
+        ember.style.width = size + 'px';
+        ember.style.height = size + 'px';
+
+        ember.style.left = Math.random() * 100 + 'vw';
+        ember.style.bottom = '-10px';
+
+        const drift = (Math.random() - 0.5) * 80;
+        ember.style.setProperty('--drift', drift + 'px');
+
+        const colors = [
+          'radial-gradient(circle, rgba(255, 200, 100, 0.9) 0%, rgba(200, 162, 93, 0.5) 50%, transparent 100%)',
+          'radial-gradient(circle, rgba(255, 140, 0, 0.9) 0%, rgba(181, 105, 79, 0.5) 50%, transparent 100%)',
+          'radial-gradient(circle, rgba(200, 162, 93, 0.9) 0%, rgba(181, 105, 79, 0.5) 50%, transparent 100%)'
+        ];
+        ember.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+        ember.style.animationDuration = (5 + Math.random() * 4) + 's';
+
+        embersField.appendChild(ember);
+
+        setTimeout(() => {
+          ember.remove();
+        }, 9000);
+      }
+
+      // Create initial embers
+      for (let i = 0; i < 25; i++) {
+        setTimeout(createEmber, i * 120);
+      }
+
+      // Continuously create embers
+      setInterval(createEmber, 200);
+
+      // ========== SCROLL ANIMATION ==========
+      const progressBar = document.getElementById('progressBar');
+      const scrollIndicator = document.getElementById('scrollIndicator');
+      const fireBg = document.getElementById('fireBg');
+      const centralFlame = document.getElementById('centralFlame');
+      const heatDistortion = document.getElementById('heatDistortion');
+      const sections = document.querySelectorAll('.scroll-section');
+      const flames = document.querySelectorAll('.flame');
+
+      let ticking = false;
+
+      function updateFire() {
+        const scrollY = window.scrollY;
+        const maxScroll = document.body.scrollHeight - window.innerHeight;
+        const scrollProgress = Math.min(scrollY / maxScroll, 1);
+
+        // Progress bar
+        progressBar.style.transform = `scaleX(${scrollProgress})`;
+
+        // Hide scroll indicator
+        if (scrollY > 100) {
+          scrollIndicator.classList.add('hidden');
+        } else {
+          scrollIndicator.classList.remove('hidden');
+        }
+
+        // Fire background intensifies
+        const redIntensity = 0.3 + scrollProgress * 0.3;
+        fireBg.style.background = `radial-gradient(ellipse at center bottom,
+          rgba(139, 0, 0, ${redIntensity}) 0%,
+          rgba(255, 69, 0, ${scrollProgress * 0.2}) 20%,
+          rgba(30, 10, 5, 0.6) 50%,
+          var(--bg-darker) 100%)`;
+
+        // Central flame grows
+        const flameScale = 1 + scrollProgress * 2;
+        centralFlame.style.transform = `translate(-50%, -50%) scale(${flameScale})`;
+        centralFlame.style.opacity = 0.5 + scrollProgress * 0.5;
+
+        // Heat distortion intensifies
+        heatDistortion.style.height = `${50 + scrollProgress * 30}vh`;
+        heatDistortion.style.opacity = 0.3 + scrollProgress * 0.4;
+
+        // Flames grow
+        flames.forEach((flame, index) => {
+          const flameScale = 0.8 + scrollProgress * 0.4;
+          flame.style.transform = `scaleY(${flameScale})`;
+          flame.style.opacity = 0.5 + scrollProgress * 0.3;
+        });
+
+        // Section visibility
+        sections.forEach((section, index) => {
+          const rect = section.getBoundingClientRect();
+          const sectionCenter = rect.top + rect.height / 2;
+          const viewportCenter = window.innerHeight / 2;
+          const distance = Math.abs(sectionCenter - viewportCenter);
+
+          const content = section.querySelector('.section-content');
+          if (distance < window.innerHeight * 0.4) {
+            content.classList.add('visible');
+          } else {
+            content.classList.remove('visible');
+          }
+        });
+
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(updateFire);
+          ticking = true;
+        }
+      });
+
+      // Initial state
+      updateFire();
+
+      // Nav scroll effect
+      const portalNav = document.getElementById('portalNav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          portalNav.classList.add('scrolled');
+        } else {
+          portalNav.classList.remove('scrolled');
+        }
+      });
+    </script>
+  </body>
+</html>

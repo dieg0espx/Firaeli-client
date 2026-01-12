@@ -836,7 +836,7 @@
       .philosophy-image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         filter: brightness(0.8) saturate(0.9);
       }
 
@@ -1705,9 +1705,103 @@
           padding: 1.5rem;
         }
       }
+
+      /* ========== PORTAL NAVIGATION ========== */
+      .portal-nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 3rem;
+        padding: 1.5rem 2rem;
+        background: linear-gradient(to bottom, rgba(5, 5, 5, 0.95) 0%, rgba(5, 5, 5, 0.8) 50%, transparent 100%);
+        transition: all 0.5s ease;
+      }
+
+      .portal-nav.scrolled {
+        padding: 1rem 2rem;
+        background: rgba(5, 5, 5, 0.95);
+        backdrop-filter: blur(10px);
+      }
+
+      .portal-nav-link {
+        font-family: 'Tenor Sans', sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.4em;
+        text-transform: uppercase;
+        color: rgba(200, 162, 93, 0.6);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 0.5rem 1rem;
+        position: relative;
+      }
+
+      .portal-nav-link:hover {
+        color: var(--divine-gold);
+      }
+
+      .portal-nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 1px;
+        background: var(--divine-gold);
+        transition: width 0.3s ease;
+      }
+
+      .portal-nav-link:hover::after {
+        width: 80%;
+      }
+
+      .portal-nav-link.active {
+        color: var(--text-light);
+      }
+
+      .portal-nav-link.active::after {
+        width: 80%;
+      }
+
+      .portal-nav-divider {
+        width: 1px;
+        height: 20px;
+        background: rgba(200, 162, 93, 0.3);
+      }
+
+      @media (max-width: 768px) {
+        .portal-nav {
+          gap: 1rem;
+          padding: 1rem;
+        }
+
+        .portal-nav-link {
+          font-size: 0.55rem;
+          letter-spacing: 0.2em;
+          padding: 0.3rem 0.5rem;
+        }
+
+        .portal-nav-divider {
+          display: none;
+        }
+      }
     </style>
   </head>
   <body>
+    <!-- Portal Navigation -->
+    <nav class="portal-nav" id="portalNav">
+      <a href="/" class="portal-nav-link active">Home</a>
+      <div class="portal-nav-divider"></div>
+      <a href="/portal1.html" class="portal-nav-link">Portal I</a>
+      <a href="/portal2.html" class="portal-nav-link">Portal II</a>
+      <a href="/portal3.html" class="portal-nav-link">Portal III</a>
+    </nav>
+
     <!-- Floating Embers -->
     <div class="embers-container" id="embersContainer"></div>
 
@@ -1775,7 +1869,7 @@
     <section class="section section-warm">
       <div class="section-content philosophy-section">
         <div class="philosophy-visual reveal">
-          <img src="/candles/2.png" alt="FIRAELI Ritual Candle" class="philosophy-image">
+          <img src="/IMG_0048-1.png" alt="FIRAELI Ritual Candle" class="philosophy-image">
         </div>
         <div class="philosophy-content">
           <span class="section-label reveal">Our Philosophy</span>
@@ -1926,7 +2020,7 @@
     <section class="section section-dark">
       <div class="section-content origin-section">
         <div class="origin-visual reveal">
-          <img src="/candles/1.png" alt="FIRAELI Candle Collection" class="origin-image">
+          <img src="/IMG_1973-1.png" alt="FIRAELI Candle Collection" class="origin-image">
         </div>
         <div class="origin-content">
           <span class="section-label reveal">The Origin</span>
@@ -1956,7 +2050,7 @@
         <div class="vessel-showcase">
           <div class="vessel-image-container reveal">
             <div class="vessel-glow"></div>
-            <img src="/candles/3.png" alt="FIRAELI Sculptural Vessel" class="vessel-image">
+            <img src="/IMG_0048-1.png" alt="FIRAELI Sculptural Vessel" class="vessel-image">
           </div>
 
           <div class="vessel-details reveal reveal-delay-2">
@@ -2607,6 +2701,16 @@
           setTimeout(function() {
             submitBtn.textContent = originalText;
           }, 3000);
+        }
+      });
+
+      // Portal Navigation scroll effect
+      const portalNav = document.getElementById('portalNav');
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 100) {
+          portalNav.classList.add('scrolled');
+        } else {
+          portalNav.classList.remove('scrolled');
         }
       });
     </script>
